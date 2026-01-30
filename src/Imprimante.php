@@ -3,14 +3,14 @@ namespace App;
 
 class Imprimante extends EquipementReseau
 {
-    private string $laser;
+    private string $type;
 
     private bool $estCouleur;
 
-    public function __construct(string $hostname, string $ip, string $laser, bool $estCouleur)
+    public function __construct(string $hostname, string $ip, string $type, bool $estCouleur)
     {
         parent::__construct($hostname, $ip);
-        $this->laser = $laser;
+        $this->type = $type;
         $this->estCouleur = $estCouleur;
 
 
@@ -18,8 +18,10 @@ class Imprimante extends EquipementReseau
 
     public function afficherStatut(): string
     {
-        // On récupère le texte du parent et on ajoute l'OS
-        return parent::afficherStatut() . " | laser : $this->laser"."| estCouleur : $this->estCouleur";
+        $afficheCouleur = "Non";
+        if ($this ->estCouleur)
+            $afficheCouleur ="Oui";
+        return parent::afficherStatut() . " | Type : $this->type"."| Couleur : $afficheCouleur";
     }
 
 
