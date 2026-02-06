@@ -20,5 +20,6 @@ class Serveur extends EquipementReseau
     {
         // On récupère le texte du parent et on ajoute l'OS
         return parent::afficherStatut() . " | OS : $this->os";
+        
     }
 }

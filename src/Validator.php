@@ -17,4 +17,10 @@ class Validator
             return false;
         }
     }
+    public static function ipHostnameValid(string $hostname): bool
+    {
+        return (preg_match("/^[a-zA-Z0-9-]+$/", $hostname)) ? true : false;
+
+    }
+
 }

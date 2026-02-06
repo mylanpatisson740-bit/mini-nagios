@@ -8,6 +8,7 @@ class EquipementReseau
     // Nous n'utilisons pas "public" pour respecter l'ENCAPSULATION.
     protected string $hostname;
     protected string $ip;
+    protected int $nbPorts;
 
     // CONSTRUCTEUR : La méthode appelée automatiquement à la création (new)
     // C'est ici qu'on force la cohérence de l'objet.
@@ -22,6 +23,13 @@ class EquipementReseau
             // Si l'IP est pourrie, on lance une Exception (une erreur fatale contrôlée)
             throw new \Exception("ERREUR DE SÉCURITÉ : L'IP '$ip' n'est pas valide !");
         }
+        if (!Validator::ipHostnameValid($hostname)) {
+            // Si l'IP est pourrie, on lance une Exception (une erreur fatale contrôlée)
+            throw new \Exception("ERREUR DE SÉCURITÉ : L'hostname '$hostname' n'est pas valide !");
+        }
+
+
+
 
         // ÉTAPE 2 : Assignation (seulement si l'étape 1 est passée)
         $this->hostname = $hostname;
