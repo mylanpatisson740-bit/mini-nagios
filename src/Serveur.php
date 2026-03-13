@@ -77,4 +77,5 @@ class Serveur extends EquipementReseau
     public function activerMaintenance(): void {
         $this->maintenance = true;
     }
+    public function getOs(): string { return $this->os; }
 }
