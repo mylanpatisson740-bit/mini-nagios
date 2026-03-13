@@ -6,12 +6,21 @@ class Serveur extends EquipementReseau
     private string $os;
 
     // NOUVEAU : Un tableau pour stocker les objets "Service"
-    private array $services = [];
+    private bool $maintenance = false;
 
+
+
+    private array $services = [];
     public function __construct(string $hostname, string $ip, string $os)
     {
-        parent::__construct($hostname, $ip); // Validation auto du parent
-        $this->os = $os;
+
+
+        parent::__construct($hostname, $ip); //
+        if (!Validator::isOsSupported($os)) {
+            // Si l'IP est pourrie, on lance une Exception (une erreur fatale contrôlée)
+            throw new \Exception("ERREUR DE CONFIGURATION OS : L'os '$os' n'est pas valide !");
+        }
+        $this->os = $os; //
     }
 
     /**
@@ -24,12 +33,26 @@ class Serveur extends EquipementReseau
         $this->services[] = $service;
     }
 
+    public function verifierSante():string {
+
+        foreach($this->services as $service) {
+            if (! $service->estDemarre() && $service->estCritique()) {
+                return "<span style='color:red'>DANGER </span>";
+            }
+        }
+        return "<span style='color:green'>OK </span>";
+    }
+
+
     public function afficherStatut(): string
     {
         // 1. On affiche les infos de base du serveur
         $html = parent::afficherStatut() . " | OS : $this->os <br>";
 
         // 2. On boucle sur les services pour afficher leur état
+        if ($this->maintenance) {
+            $html.="Le serveur est maintenant en maintenance 🚧";
+        }
         if (empty($this->services)) {
             $html .= "<em>Aucun service installé.</em>";
         } else {
@@ -43,13 +66,15 @@ class Serveur extends EquipementReseau
         return $html;
     }
 
-    public function verifierSante():string {
+    public function enMaintenance(): bool {
+        return $this->maintenance;
+    }
 
-        foreach($this->services as $service) {
-            if (! $service->estDemarre() && $service->estCritique()) {
-                return "<span style='color:red'>DANGER </span>";
-            }
-        }
-        return "<span style='color:green'>OK </span>";
+    public function recupereServices(){
+        return $this->services;
+    }
+
+    public function activerMaintenance(): void {
+        $this->maintenance = true;
     }
 }
