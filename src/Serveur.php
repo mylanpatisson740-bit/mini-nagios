@@ -8,10 +8,12 @@ class Serveur extends EquipementReseau
     // NOUVEAU : Un tableau pour stocker les objets "Service"
     private bool $maintenance = false;
 
+    private string $rootPasswordHybride  ;
+
 
 
     private array $services = [];
-    public function __construct(string $hostname, string $ip, string $os)
+    public function __construct(string $hostname, string $ip, string $os, string $rootPasswordHybride="vide")
     {
 
 
@@ -21,6 +23,15 @@ class Serveur extends EquipementReseau
             throw new \Exception("ERREUR DE CONFIGURATION OS : L'os '$os' n'est pas valide !");
         }
         $this->os = $os; //
+        $this->rootPasswordHybride = $rootPasswordHybride;
+    }
+
+    public function getOs(): string {
+        return $this->os;
+    }
+
+    public function recupereMotDePasseRoot() {
+        return $this->rootPasswordHybride;
     }
 
     /**
@@ -77,5 +88,4 @@ class Serveur extends EquipementReseau
     public function activerMaintenance(): void {
         $this->maintenance = true;
     }
-    public function getOs(): string { return $this->os; }
 }

@@ -32,6 +32,9 @@
         <option value="TempleOS">TempleOS (Interdit)</option>
     </select>
 
+    <label>Mot de passe root du serveur :</label>
+    <input type="password" name="root_pass" required placeholder="Pas le nom de mon chat">
+
     <button type="submit">Créer le serveur</button>
 </form>
 </body>

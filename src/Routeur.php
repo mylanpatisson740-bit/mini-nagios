@@ -3,17 +3,25 @@ namespace App;
 
 class Routeur extends EquipementReseau
 {
-    protected int $nbPorts;
+    private int $nbPorts;
 
     public function __construct(string $hostname, string $ip, int $nbPorts)
     {
-        if ($nbPorts<1 ||$nbPorts>128) {
-            // Si le nombre de ports est trop petit ou trop grand
-            throw new \Exception("ERREUR MATERIELLE : Le nombre de port n'est pas valide '$nbPorts' n'est pas valide !");
+
+        if ($nbPorts < 1 || $nbPorts > 128) {
+            // Si le nombre de ^ports est trop petit ou trop grand
+            throw new \Exception("ERREUR MATERIELLE : le nombre de ports n'est pas valide. Ici vous demandez $nbPorts pas correct.");
         }
 
+        //  Appel du constructeur parent (qui va valider IP et Hostname)
         parent::__construct($hostname, $ip);
+
+        //  Assignation
         $this->nbPorts = $nbPorts;
+    }
+
+    public function getNbPorts(): int {
+        return $this->nbPorts;
     }
 
     public function afficherStatut(): string

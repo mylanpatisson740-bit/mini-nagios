@@ -3,13 +3,17 @@ require '../vendor/autoload.php';
 use App\Serveur;
 use App\Database;
 use App\ServeurRepository;
+use App\Securite;
+
+App\Securite::verifierConnexion();
+
 
 $dt=Database::getConnection();
 
 
 $serVeur=new ServeurRepository($dt);
 
-$Repos=$serVeur->listerTous();
+$repos=$serVeur->listerTous();
 
 ?>
 <!DOCTYPE html>
@@ -42,14 +46,14 @@ $Repos=$serVeur->listerTous();
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($Repos as $srv): ?>
+            <?php foreach ($repos as $srv): ?>
             <tr>
                 <td><?= $srv['id'] ?></td>
                 <td><?= $srv['hostname'] ?></td>
                 <td><?= $srv['ip'] ?></td>
                 <td><?= $srv['os'] ?></td>
                 <td><?= $srv['date_creation'] ?></td>
-                <td><a href="supprimer.php?id='id'">Supprimer</a></td>
+                <td><a href="supprimer.php?id=<?= $srv['id'] ?>">Supprimer</a></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

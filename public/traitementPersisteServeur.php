@@ -1,6 +1,7 @@
 <?php
 require '../vendor/autoload.php';
 
+use App\CryptoService;
 use App\Serveur;
 use App\Database;
 use App\ServeurRepository;
@@ -13,10 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // 1. Instanciation de l'objet (Le code va valider l'IP et l'OS tout seul !)
-        $nouveauServeur = new Serveur($nom, $ip, $os);
+
 
         // 2. Connexion à la BDD
         $pdo = Database::getConnection();
+
+        $crypto = new CryptoService() ;
+        $mdpChiffre = $crypto->chiffrerSensible($_POST['root_pass']) ;
+
+        $nouveauServeur = new Serveur($nom, $ip, $os, $mdpChiffre);
 
         // 3. Création du Repository et Sauvegarde
         $repo = new ServeurRepository($pdo);
